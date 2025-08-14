@@ -1,37 +1,61 @@
-/* Two-column layout with a top bar.
-   Home shows full left rail (#idcard) + nav.
-   Other pages collapse to slim top bar (#crumb). */
+/* Global tokens */
+:root{
+  --fg:#000; --bg:#fff; --rule:1px solid #000;
+  --wrap:clamp(320px, 92vw, 940px);
+  --gap:16px; --gap-lg:20px;
+}
 
-:root { --col:#000; --bg:#fff; --rule:1px solid #000; --w:940px; --gap:16px; }
-* { box-sizing: border-box; }
-html, body { margin:0; padding:0; background:var(--bg); color:var(--col); font-family: monospace; }
-.wrap { max-width: var(--w); margin: 0 auto; padding: 16px; }
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:monospace;
+  -webkit-text-size-adjust:100%; text-size-adjust:100%; -webkit-font-smoothing:antialiased}
+a{color:#00c}
+img{max-width:100%;height:auto;display:block;border:1px solid #000}
 
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+/* Wrapper with iOS safe area */
+.wrap{
+  width:100%; max-width:var(--wrap); margin:0 auto;
+  padding:16px;
+  padding-left:max(16px,env(safe-area-inset-left));
+  padding-right:max(16px,env(safe-area-inset-right));
+  padding-top:max(16px,env(safe-area-inset-top));
+  padding-bottom:max(16px,env(safe-area-inset-bottom));
+}
 
-#idcard { border: var(--rule); padding: 12px; background: #fafafa; }
-#idcard .cap { font-size:12px; color:#333; margin-top:6px; }
-#randomart { white-space: pre; line-height: 1.0; font-size: 11px; color:#0a0; }
+/* Grid: mobile-first single column; wider -> two columns */
+.grid{display:grid; grid-template-columns:1fr; gap:var(--gap)}
+@media (min-width:880px){
+  .grid{grid-template-columns: 1fr 1fr; gap:var(--gap-lg)}
+}
 
-nav, header.site, hr, footer, .notice, .fullrow { grid-column: 1 / -1; }
+/* Global blocks */
+header.site{grid-column:1/-1; text-align:center}
+header.site h1{margin:8px 0 4px 0; font-size:clamp(18px,4.6vw,28px)}
+.small{font-size:12px;color:#333}
+.center{text-align:center}
+hr{border:none;border-top:var(--rule);margin:12px 0}
+footer{grid-column:1/-1;border-top:var(--rule);margin-top:12px;padding-top:10px;text-align:center;color:#333}
 
-nav { display:flex; gap:12px; align-items:center; border-bottom: var(--rule); padding: 8px 0; }
-nav a { color:#00c; text-decoration: underline; }
+/* Nav */
+nav{grid-column:1/-1; display:flex; gap:12px; align-items:center; border-bottom:var(--rule); padding:8px 0}
+nav a{text-decoration:underline}
+nav img{width:24px;height:24px;border:none}
 
-figure { margin:0 0 12px 0; }
-img { max-width:100%; height:auto; display:block; border:1px solid #000; }
-footer { border-top:var(--rule); margin-top:16px; padding-top:12px; text-align:center; color:#333; }
-.small { font-size:12px; color:#333; }
-.center { text-align:center; }
-.notice { background:#fafafa; border:1px dashed #000; padding:8px; }
-.gallery { display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+/* Notice (Mission) */
+.notice{grid-column:1/-1;background:#fafafa;border:1px dashed #000;padding:10px}
 
-/* Slim crumb bar on non-home pages (collapsed mode) */
-#crumb { display:none; align-items:center; gap:8px; border-bottom: var(--rule); padding:6px 0; }
-#crumb img { width:16px; height:16px; border:none; }
-#crumb a { color:#00c; text-decoration: none; }
+/* Randomart tile (idcard) — now a fullrow block positioned in document flow */
+#idcard{grid-column:1/-1; border:var(--rule); padding:12px; background:#fafafa}
+#idcard .cap{font-size:12px;color:#333;margin-top:6px}
+#randomart{white-space:pre; line-height:1.0; font-size:11px; color:#0a0; overflow:auto}
 
-/* Collapsed mode: hide left rail + nav; show crumb */
-body.collapsed #idcard { display:none; }
-body.collapsed nav { display:none; }
-body.collapsed #crumb { display:flex; }
+/* Content */
+figure{margin:0 0 12px 0}
+.gallery{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+@media (min-width:880px){ .gallery{grid-template-columns:1fr 1fr 1fr} }
+
+/* Utility to span both columns when grid is 2-col */
+.fullrow{grid-column:1/-1}
+
+/* Kill old collapsed/crumb styling */
+#crumb{display:none}
+body.collapsed #idcard, body.collapsed nav, body.collapsed #crumb{display:unset}
