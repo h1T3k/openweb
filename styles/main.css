@@ -1,15 +1,20 @@
-/* Global tokens */
+/* Dark theme tokens */
 :root{
-  --fg:#000; --bg:#fff; --rule:1px solid #000;
+  --bg:#000;          /* black */
+  --fg:#0f0;          /* green */
+  --fg-dim:#7f7;      /* muted green */
+  --rule:1px solid var(--fg);
   --wrap:clamp(320px, 92vw, 940px);
   --gap:16px; --gap-lg:20px;
 }
 
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:monospace;
-  -webkit-text-size-adjust:100%; text-size-adjust:100%; -webkit-font-smoothing:antialiased}
-a{color:#00c}
-img{max-width:100%;height:auto;display:block;border:1px solid #000}
+html,body{
+  margin:0; padding:0; background:var(--bg); color:var(--fg); font-family:monospace;
+  -webkit-text-size-adjust:100%; text-size-adjust:100%; -webkit-font-smoothing:antialiased
+}
+a{color:var(--fg); text-decoration:underline}
+img{max-width:100%; height:auto; display:block; border:1px solid var(--fg)}
 
 /* Wrapper with iOS safe area */
 .wrap{
@@ -21,7 +26,7 @@ img{max-width:100%;height:auto;display:block;border:1px solid #000}
   padding-bottom:max(16px,env(safe-area-inset-bottom));
 }
 
-/* Grid: mobile-first single column; wider -> two columns */
+/* Grid: mobile-first single column; ≥880px → two columns */
 .grid{display:grid; grid-template-columns:1fr; gap:var(--gap)}
 @media (min-width:880px){
   .grid{grid-template-columns: 1fr 1fr; gap:var(--gap-lg)}
@@ -30,28 +35,33 @@ img{max-width:100%;height:auto;display:block;border:1px solid #000}
 /* Global blocks */
 header.site{grid-column:1/-1; text-align:center}
 header.site h1{margin:8px 0 4px 0; font-size:clamp(18px,4.6vw,28px)}
-.small{font-size:12px;color:#333}
+.small{font-size:12px;color:var(--fg-dim)}
 .center{text-align:center}
 hr{border:none;border-top:var(--rule);margin:12px 0}
-footer{grid-column:1/-1;border-top:var(--rule);margin-top:12px;padding-top:10px;text-align:center;color:#333}
+footer{grid-column:1/-1;border-top:var(--rule);margin-top:12px;padding-top:10px;text-align:center;color:var(--fg-dim)}
 
 /* Nav */
-nav{grid-column:1/-1; display:flex; gap:12px; align-items:center; border-bottom:var(--rule); padding:8px 0}
+nav{
+  grid-column:1/-1; display:flex; gap:12px; align-items:center;
+  border-bottom:var(--rule); padding:8px 0
+}
 nav a{text-decoration:underline}
 nav img{width:24px;height:24px;border:none}
 
 /* Notice (Mission) */
-.notice{grid-column:1/-1;background:#fafafa;border:1px dashed #000;padding:10px}
+.notice{
+  grid-column:1/-1; background:var(--bg); border:1px dashed var(--fg); padding:10px
+}
 
 /* Randomart tile (used only on About) */
-#idcard{grid-column:1/-1; border:var(--rule); padding:12px; background:#fafafa}
-#idcard .cap{font-size:12px;color:#333;margin-top:6px}
-#randomart{white-space:pre; line-height:1.0; font-size:11px; color:#0a0; overflow:auto}
+#idcard{grid-column:1/-1; border:var(--rule); padding:12px; background:var(--bg)}
+#idcard .cap{font-size:12px;color:var(--fg-dim);margin-top:6px}
+#randomart{white-space:pre; line-height:1.0; font-size:11px; color:var(--fg); overflow:auto}
 
 /* Content */
 figure{margin:0 0 12px 0}
 .gallery{display:grid; grid-template-columns:1fr 1fr; gap:12px}
 @media (min-width:880px){ .gallery{grid-template-columns:1fr 1fr 1fr} }
 
-/* Utility to span both columns when grid is 2-col */
+/* Utility */
 .fullrow{grid-column:1/-1}
