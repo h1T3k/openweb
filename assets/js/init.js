@@ -29,7 +29,7 @@ function drunkenBishop(hex, cols=17, rows=9) {
   const palette = " .o+=*BOX@%&#/^";
   const maxv = Math.max(1, ...grid.flat());
   const art = grid.map(r=>r.slice());
-  art[Math.floor(rows/2)][Math.floor(cols/2)] = 'S';
+  art[Math.floor(rows/2)][Math.floor(rows/2)] = 'S';
   art[y][x] = 'E';
   const lines = [];
   lines.push("+" + "-".repeat(cols) + "+");
