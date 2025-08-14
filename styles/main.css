@@ -48,7 +48,7 @@ nav{
 nav a{text-decoration:underline}
 nav img{width:24px;height:24px;border:none}
 
-/* Notice card (Mission/About blurb) */
+/* Notice card (used for Mission on Home; blurb on About) */
 .notice{
   grid-column:1/-1; background:var(--bg); border:1px dashed var(--fg); padding:10px
 }
