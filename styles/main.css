@@ -48,12 +48,12 @@ nav{
 nav a{text-decoration:underline}
 nav img{width:24px;height:24px;border:none}
 
-/* Notice card (used for Mission on Home; blurb on About) */
+/* Notice card (used for Home mission; About blurb) */
 .notice{
   grid-column:1/-1; background:var(--bg); border:1px dashed var(--fg); padding:10px
 }
 
-/* Randomart tile (used only on About) */
+/* Randomart tile (About only) */
 #idcard{grid-column:1/-1; border:var(--rule); padding:12px; background:var(--bg)}
 #idcard .cap{font-size:12px;color:var(--fg-dim);margin-top:6px}
 #randomart{white-space:pre; line-height:1.0; font-size:11px; color:var(--fg); overflow:auto}
@@ -66,5 +66,6 @@ figure{margin:0 0 12px 0}
 /* Utility */
 .fullrow{grid-column:1/-1}
 
-/* Home: center "Latest" block */
+/* Home + News placeholder centering */
 .latest h2{margin:8px 0 4px}
+.posts.center, .latest.center{ text-align:center }
