@@ -8,27 +8,21 @@
 </head>
 <body>
   <div class="wrap grid">
-    <!-- Same chrome, but no public info or links except Enter -->
     <nav>
       <img src="assets/icons/logo.svg" alt="logo">
-      <span class="small" aria-current="page">welcome</span>
+      <!-- no text, no public info -->
     </nav>
 
-    <!-- Minimal welcome center -->
     <section class="fullrow center" style="margin-top:18px">
-      <figure style="border:1px solid currentColor; padding:8px; display:inline-block">
-        <img src="assets/welcome/default.svg" alt="welcome" style="border:none">
-      </figure>
-      <p style="margin-top:10px"><a id="enter" href="home.html">enter</a></p>
+      <p><a id="enter" href="home.html">enter</a></p>
     </section>
 
     <footer>
-      <div class="small"> </div> <!-- intentionally blank footer to keep layout consistent -->
+      <div class="small"> </div>
     </footer>
   </div>
 
   <script>
-    // Preload session so deep links work later
     sessionStorage.setItem('preloaded','1');
     document.getElementById('enter').addEventListener('click',()=>sessionStorage.setItem('preloaded','1'));
   </script>
