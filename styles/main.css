@@ -40,7 +40,7 @@ header.site h1{margin:8px 0 4px 0; font-size:clamp(18px,4.6vw,28px)}
 hr{border:none;border-top:var(--rule);margin:12px 0}
 footer{grid-column:1/-1;border-top:var(--rule);margin-top:12px;padding-top:10px;text-align:center;color:var(--fg-dim)}
 
-/* Nav */
+/* Nav (divider via border-bottom) */
 nav{
   grid-column:1/-1; display:flex; gap:12px; align-items:center;
   border-bottom:var(--rule); padding:8px 0
@@ -48,7 +48,7 @@ nav{
 nav a{text-decoration:underline}
 nav img{width:24px;height:24px;border:none}
 
-/* Notice (Mission) */
+/* Notice card (Mission/About blurb) */
 .notice{
   grid-column:1/-1; background:var(--bg); border:1px dashed var(--fg); padding:10px
 }
@@ -65,3 +65,6 @@ figure{margin:0 0 12px 0}
 
 /* Utility */
 .fullrow{grid-column:1/-1}
+
+/* Home: center "Latest" block */
+.latest h2{margin:8px 0 4px}
