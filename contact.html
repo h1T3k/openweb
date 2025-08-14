@@ -4,32 +4,28 @@
 <meta charset="utf-8">
 <title>Contact</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="styles/main.css?v=1">
+<link rel="stylesheet" href="styles/main.css">
 </head>
-<body>
-  <div class="wrap">
-    <nav>
-      <img src="assets/icons/logo.svg" alt="logo" width="24" height="24">
-      <a href="home.html">Home</a>
-      <a href="news.html">News</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-    </nav>
+<body class="collapsed">
+  <div class="wrap grid">
+    <div id="crumb" class="fullrow">
+      <img src="assets/icons/logo.svg" alt="logo">
+      <a href="home.html" id="pathlink">/contact</a>
+    </div>
 
-    <header class="site">
-      <h1>Contact</h1>
-    </header>
+    <div id="idcard"><div id="randomart"></div><div class="cap small" id="idcap"></div></div>
 
-    <hr>
+    <header class="site"><h1>Contact</h1></header>
 
-    <section>
+    <section class="fullrow">
       <p>Email: <a href="mailto:r.a.s.e.r.keaton@yahoo.com">r.a.s.e.r.keaton@yahoo.com</a></p>
-      <p class="small">Wallet (tips): <code>0xYourWalletHere</code></p>
+      <p class="small">Wallet (tips): <code id="tipaddr">0xYourWalletHere</code></p>
     </section>
 
-    <footer class="center small">
+    <footer class="center small fullrow">
       <a href="contact.welcome.html">Open via Welcome first</a>
     </footer>
   </div>
+  <script type="module" src="assets/js/init.js"></script>
 </body>
 </html>
