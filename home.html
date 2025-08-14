@@ -3,25 +3,20 @@
 <head>
 <meta charset="utf-8">
 <title>Home</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
   <div class="wrap grid">
-    <div id="idcard">
-      <div id="randomart">(loading identity…)</div>
-      <div class="cap small" id="idcap">site identity</div>
-    </div>
-
     <nav>
-      <img src="assets/icons/logo.svg" alt="logo" width="24" height="24">
+      <img src="assets/icons/logo.svg" alt="logo">
       <a href="home.html">Home</a>
-      <a href="news.html" class="laterallink">News</a>
-      <a href="about.html" class="laterallink">About</a>
-      <a href="contact.html" class="laterallink">Contact</a>
+      <a href="news.html">News</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
     </nav>
 
-    <header class="site center">
+    <header class="site">
       <h1>Keaton Raser — Portfolio</h1>
       <div class="small">simple. fast. censorship-resistant. on-chain.</div>
     </header>
@@ -30,7 +25,13 @@
       <strong>Mission:</strong> straight-to-the-point design & typography.
     </section>
 
-    <section>
+    <!-- Randomart tile now lives here -->
+    <section id="idcard">
+      <div id="randomart">(loading identity…)</div>
+      <div class="cap small" id="idcap">site identity</div>
+    </section>
+
+    <section class="fullrow">
       <h2>Latest</h2>
       <p><em>No posts yet.</em></p>
     </section>
