@@ -3,30 +3,45 @@
 <head>
 <meta charset="utf-8">
 <title>Welcome</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="preload" href="styles/main.css" as="style">
-<link rel="preload" href="home.html" as="document">
-<link rel="preload" href="news.html" as="document">
-<link rel="preload" href="about.html" as="document">
-<link rel="preload" href="contact.html" as="document">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="stylesheet" href="styles/main.css">
-<style>
-  body { background:#000; color:#0f0; display:grid; place-items:center; min-height:100vh; }
-  a { color:#0f0; text-decoration:none; font-weight:bold; }
-  .stack { display:grid; gap:12px; place-items:center; }
-</style>
 </head>
 <body>
-  <div class="stack">
-    <img src="assets/welcome/default.svg" alt="welcome" width="220" height="80">
-    <div class="center"><a href="home.html" id="enter">Enter → Home</a></div>
-    <div class="small center" style="color:#7f7;">preload: home / news / about / contact</div>
+  <div class="wrap grid">
+    <nav>
+      <img src="assets/icons/logo.svg" alt="logo">
+      <a href="home.html">Home</a>
+      <a href="news.html">News</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <header class="site">
+      <h1>Keaton Raser — Portfolio</h1>
+      <div class="small">simple. fast. censorship-resistant. on-chain.</div>
+    </header>
+
+    <section class="notice center">
+      <strong>Mission:</strong> straight-to-the-point design & typography.
+    </section>
+
+    <!-- Welcome-specific blurb; same layout, optional art -->
+    <section class="fullrow center">
+      <figure style="border:1px solid #000; padding:8px; display:inline-block">
+        <img src="assets/welcome/default.svg" alt="welcome" style="border:none">
+      </figure>
+      <p><a id="enter" href="home.html">Enter → Home</a></p>
+      <div class="small">Preloads session for direct links.</div>
+    </section>
+
+    <footer>
+      <div class="small">© 2025 K.R.</div>
+    </footer>
   </div>
+
   <script>
-    sessionStorage.setItem('preloaded', '1');
-    document.getElementById('enter').addEventListener('click', ()=> {
-      sessionStorage.setItem('preloaded', '1');
-    });
+    sessionStorage.setItem('preloaded','1');
+    document.getElementById('enter').addEventListener('click',()=>sessionStorage.setItem('preloaded','1'));
   </script>
 </body>
 </html>
