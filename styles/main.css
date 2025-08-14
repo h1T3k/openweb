@@ -62,10 +62,18 @@ nav img{width:24px;height:24px;border:none}
 }
 
 /* Randomart tile (About only) */
-#idcard{grid-column:1/-1; border:var(--rule); padding:12px; background:var(--bg)}
-#idcard .cap{font-size:12px;color:var(--fg-dim);margin-top:6px}
-#randomart{white-space:pre; line-height:1.0; font-size:11px; color:var(--fg); overflow:auto}
-
+#idcard{
+  grid-column:1/-1; border:var(--rule); padding:12px; background:var(--bg);
+}
+#idcard .cap{
+  font-size:12px; color:var(--fg-dim); margin-top:6px;
+  /* long address handling */
+  word-break: break-all;
+  overflow-wrap: anywhere;
+}
+#randomart{
+  white-space:pre; line-height:1.0; font-size:11px; color:var(--fg); overflow:auto;
+}
 /* Content */
 figure{margin:0 0 12px 0}
 .gallery{display:grid; grid-template-columns:1fr 1fr; gap:12px}
