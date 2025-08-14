@@ -61,18 +61,18 @@ nav img{width:24px;height:24px;border:none}
   grid-column:1/-1; background:var(--bg); border:1px dashed var(--fg); padding:10px
 }
 
-/* Randomart tile (About only) */
+/* Randomart tile (About + Home) */
 #idcard{
   grid-column:1/-1; border:var(--rule); padding:12px; background:var(--bg);
+  text-align:center; /* center contents */
 }
 #idcard .cap{
   font-size:12px; color:var(--fg-dim); margin-top:6px;
-  /* long address handling */
-  word-break: break-all;
-  overflow-wrap: anywhere;
+  word-break:break-all; overflow-wrap:anywhere; /* long addresses */
 }
 #randomart{
-  white-space:pre; line-height:1.0; font-size:11px; color:var(--fg); overflow:auto;
+  white-space:pre; line-height:1.0; font-size:11px; color:var(--fg);
+  display:inline-block; text-align:left; /* keep ASCII aligned while centered */
 }
 /* Content */
 figure{margin:0 0 12px 0}
