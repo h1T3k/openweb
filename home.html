@@ -4,30 +4,31 @@
 <meta charset="utf-8">
 <title>Home</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="styles/main.css?v=1">
+<link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
-  <div class="wrap">
+  <div class="wrap grid">
+    <div id="idcard">
+      <div id="randomart">(loading identity…)</div>
+      <div class="cap small" id="idcap">site identity</div>
+    </div>
+
     <nav>
       <img src="assets/icons/logo.svg" alt="logo" width="24" height="24">
       <a href="home.html">Home</a>
-      <a href="news.html">News</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
+      <a href="news.html" class="laterallink">News</a>
+      <a href="about.html" class="laterallink">About</a>
+      <a href="contact.html" class="laterallink">Contact</a>
     </nav>
 
-    <header class="site">
+    <header class="site center">
       <h1>Keaton Raser — Portfolio</h1>
-      <div class="small">simple. fast. censorship-resistant.</div>
+      <div class="small">simple. fast. censorship-resistant. on-chain.</div>
     </header>
-
-    <hr>
 
     <section class="notice center">
       <strong>Mission:</strong> straight-to-the-point design & typography.
     </section>
-
-    <hr>
 
     <section>
       <h2>Latest</h2>
@@ -36,8 +37,10 @@
 
     <footer>
       <div>© 2025 K.R.</div>
-      <div class="small">Tip: <code>0xYourWalletHere</code></div>
+      <div class="small">Tip: <code id="tipaddr">0xYourWalletHere</code></div>
     </footer>
   </div>
+
+  <script type="module" src="assets/js/init.js"></script>
 </body>
 </html>
