@@ -1,5 +1,5 @@
 {
   "admin_address": "0xYourWalletHere",
   "randomart_source": "sha256(admin_address)",
-  "caption": "On-chain site identity (SHA-256 of admin address)"
+  "caption": "On-chain site identity (SHA-256)"
 }
