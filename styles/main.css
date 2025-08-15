@@ -55,7 +55,11 @@ nav{
 }
 nav a{text-decoration:underline}
 nav img{width:24px;height:24px;border:none}
-
+/* Active menu item */
+nav a.current, nav a[aria-current="page"]{
+  font-style: italic;
+  text-decoration: none;
+}
 /* Notice card (Home mission; About blurb) */
 .notice{
   grid-column:1/-1; background:var(--bg); border:1px dashed var(--fg); padding:10px
