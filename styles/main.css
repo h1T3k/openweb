@@ -61,18 +61,20 @@ nav img{width:24px;height:24px;border:none}
   grid-column:1/-1; background:var(--bg); border:1px dashed var(--fg); padding:10px
 }
 
-/* Randomart tile (About + Home) */
+/* Randomart tile (now on Home; centered) */
 #idcard{
   grid-column:1/-1; border:var(--rule); padding:12px; background:var(--bg);
-  text-align:center; /* center contents */
-}
-#idcard .cap{
-  font-size:12px; color:var(--fg-dim); margin-top:6px;
-  word-break:break-all; overflow-wrap:anywhere; /* long addresses */
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; gap:6px;
 }
 #randomart{
   white-space:pre; line-height:1.0; font-size:11px; color:var(--fg);
-  display:inline-block; text-align:left; /* keep ASCII aligned while centered */
+  /* shrink to content so centering actually centers the art */
+  width:max-content; max-width:100%;
+}
+#idcard .cap{
+  font-size:12px; color:var(--fg-dim);
+  word-break:break-all; overflow-wrap:anywhere;  /* long addresses won’t stretch the page */
 }
 /* Content */
 figure{margin:0 0 12px 0}
