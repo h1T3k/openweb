@@ -1,5 +1,5 @@
 {
-  "admin_address": "83cn9tjk1AkEG72zmeFa6SM8AwCAgqExdMNJrK3Pjxvp6pqEmFV7LuNG38Z6PtRADE4aJVuQcY8bohf3sma4JGv5HyrVLDA",
-  "randomart_source": "sha256(admin_addr)",
-  "caption": "on-chain site identity (SHA-256 of admin address)"
+  "admin_address": "0xaa83575024d50ce6d134aaafb07a3bbd6af837f3",
+  "randomart_source": "sha256(admin_address)",
+  "caption": "On-chain site identity (SHA-256 of admin address)"
 }
