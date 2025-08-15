@@ -14,6 +14,7 @@ async function sha256Hex(str) {
   const buf = await crypto.subtle.digest('SHA-256', enc);
   return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,'0')).join('');
 }
+
 function drunkenBishop(hex, cols=17, rows=9) {
   const moves = [[-1,-1],[+1,-1],[-1,+1],[+1,+1]];
   const bytes = hex.match(/.{2}/g).map(h=>parseInt(h,16));
@@ -65,39 +66,49 @@ function drunkenBishop(hex, cols=17, rows=9) {
     });
 
     /* Randomart + caption + tip (only fills if elements exist) */
-    const cfg = await (await fetch('site.json')).json();
-    const addr = (cfg.admin_address||'').trim();
-    const cap  = cfg.caption || "On-chain site identity";
-    if (addr) {
-      const hex = await sha256Hex(addr);
-      const art = drunkenBishop(hex, 17, 9);
+    const res = await fetch('site.json', { cache: 'no-store' });
+    if (res.ok) {
+      const cfg = await res.json();
+      const addr = (cfg.admin_address || '').trim();
+      const cap  = cfg.caption || "On-chain site identity";
       const artEl = document.getElementById('randomart');
       const capEl = document.getElementById('idcap');
       const tipEl = document.getElementById('tipaddr');
-      if (artEl) artEl.textContent = art + "\nsha256:" + hex.slice(0,16) + "…";
-      if (capEl) capEl.textContent = cap + " — " + addr;
-      if (tipEl) tipEl.textContent = addr;
+
+      if (addr) {
+        const hex = await sha256Hex(addr);
+        const art = drunkenBishop(hex, 17, 9);
+        if (artEl) artEl.textContent = art + "\nsha256:" + hex.slice(0,16) + "…";
+        if (capEl) capEl.textContent = cap + " — " + addr;
+        if (tipEl) tipEl.textContent = addr;
+      } else {
+        if (artEl) artEl.textContent = "(identity load error: missing admin_address in site.json)";
+      }
     }
 
-    /* News feed → Home + News */
-    const res = await fetch('news.json', {cache:'no-store'});
-    const feed = res.ok ? await res.json() : {posts:[]};
-    const posts = Array.isArray(feed.posts) ? feed.posts.slice() : [];
-    // newest first by date (YYYY-MM-DD)
+    /* News feed → Home + News (shared placeholder style) */
+    let posts = [];
+    try {
+      const feedRes = await fetch('news.json', { cache: 'no-store' });
+      if (feedRes.ok) {
+        const feed = await feedRes.json();
+        posts = Array.isArray(feed.posts) ? feed.posts.slice() : [];
+      }
+    } catch {}
+
     posts.sort((a,b)=> String(b.date||'').localeCompare(String(a.date||'')));
 
-    // Home: show newest one post
+    // Home: show newest one post or placeholder
     const homeWrap = document.getElementById('home-latest');
     if (homeWrap) {
-      const target = homeWrap.querySelector('.placeholder');
-      if (posts.length && posts[0]) {
+      if (posts.length) {
         const p = posts[0];
         homeWrap.innerHTML = `
           <h2>latest...</h2>
           <p><strong>${p.title||'Untitled'}</strong> — <a href="${p.url||'news.html'}">read</a></p>
           <p class="small">${p.date||''}</p>
         `;
-      } else if (!target) {
+      } else {
         homeWrap.innerHTML = `<h2>latest...</h2><p class="placeholder"><em>nothing here...</em></p>`;
       }
     }
@@ -121,7 +132,7 @@ function drunkenBishop(hex, cols=17, rows=9) {
     }
 
     if (isHome) sessionStorage.setItem('preloaded', '1');
-  } catch (e) {
+  } catch {
     const artEl = document.getElementById('randomart');
     if (artEl) artEl.textContent = "(identity load error)";
   }
