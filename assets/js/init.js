@@ -8,6 +8,7 @@ if (!isWelcome && !isHome) {
   }
 }
 
+// --- Utilities ---
 async function sha256Hex(str) {
   const enc = new TextEncoder().encode(str);
   const buf = await crypto.subtle.digest('SHA-256', enc);
@@ -29,7 +30,7 @@ function drunkenBishop(hex, cols=17, rows=9) {
   const palette = " .o+=*BOX@%&#/^";
   const maxv = Math.max(1, ...grid.flat());
   const art = grid.map(r=>r.slice());
-  art[Math.floor(rows/2)][Math.floor(rows/2)] = 'S';
+  art[Math.floor(rows/2)][Math.floor(cols/2)] = 'S';
   art[y][x] = 'E';
   const lines = [];
   lines.push("+" + "-".repeat(cols) + "+");
@@ -48,8 +49,23 @@ function drunkenBishop(hex, cols=17, rows=9) {
   return lines.join("\n");
 }
 
+// --- Main init ---
 (async () => {
   try {
+    // Nav: mark current page
+    const currentFile = (() => {
+      const f = location.pathname.split('/').pop();
+      return f && f.length ? f : 'index.html';
+    })();
+    document.querySelectorAll('nav a[href]').forEach(a => {
+      const hrefFile = a.getAttribute('href').split('/').pop();
+      if (hrefFile === currentFile) {
+        a.classList.add('current');
+        a.setAttribute('aria-current','page');
+      }
+    });
+
+    // Identity / tips / randomart (if the elements exist)
     const cfg = await (await fetch('site.json')).json();
     const addr = (cfg.admin_address||'').trim();
     const cap  = cfg.caption || "On-chain site identity";
@@ -63,6 +79,7 @@ function drunkenBishop(hex, cols=17, rows=9) {
       if (capEl) capEl.textContent = cap + " — " + addr;
       if (tipEl) tipEl.textContent = addr;
     }
+
     if (isHome) sessionStorage.setItem('preloaded', '1');
   } catch {
     const artEl = document.getElementById('randomart');
