@@ -81,8 +81,8 @@ function drunkenBishop(hex, cols=17, rows=9) {
         if (artEl) artEl.textContent = art + "\nsha256:" + hex.slice(0,16) + "…";
         if (capEl) capEl.textContent = cap + " — " + addr;
         if (tipEl) tipEl.textContent = addr;
-      } else {
-        if (artEl) artEl.textContent = "(identity load error: missing admin_address in site.json)";
+      } else if (artEl) {
+        artEl.textContent = "(identity load error: missing admin_address in site.json)";
       }
     }
 
