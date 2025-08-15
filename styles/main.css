@@ -1,97 +1,64 @@
 /* Dark theme tokens */
 :root{
-  --bg:#000;          /* black */
-  --fg:#0f0;          /* green */
-  --fg-dim:#7f7;      /* muted green */
-  --rule:1px solid var(--fg);
-  --wrap:clamp(320px, 92vw, 940px);
-  --gap:16px; --gap-lg:20px;
+  --bg:#000; --fg:#0f0; --fg-dim:#7f7; --rule:1px solid var(--fg);
+  --wrap:clamp(320px,92vw,940px); --gap:16px; --gap-lg:20px;
 }
-
 *{box-sizing:border-box}
-html,body{
-  margin:0; padding:0; background:var(--bg); color:var(--fg); font-family:monospace;
-  -webkit-text-size-adjust:100%; text-size-adjust:100%; -webkit-font-smoothing:antialiased
-}
-a{color:var(--fg); text-decoration:underline}
-img{max-width:100%; height:auto; display:block; border:1px solid var(--fg)}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:monospace;
+  -webkit-text-size-adjust:100%;text-size-adjust:100%;-webkit-font-smoothing:antialiased}
+a{color:var(--fg);text-decoration:none}
+img{max-width:100%;height:auto;display:block;border:1px solid var(--fg)}
 
-/* Monospace + wrapping for long strings (wallets, hashes) */
-code, .addr{
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  word-break: break-all;
-  overflow-wrap: anywhere;
-}
-pre{white-space:pre-wrap; word-wrap:break-word}
+/* long strings (wallets, hashes) */
+code,.addr{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;word-break:break-all;overflow-wrap:anywhere}
+pre{white-space:pre-wrap;word-wrap:break-word}
 
-/* Wrapper with iOS safe area */
-.wrap{
-  width:100%; max-width:var(--wrap); margin:0 auto;
-  padding:16px;
+/* wrapper + safe-area for iOS */
+.wrap{width:100%;max-width:var(--wrap);margin:0 auto;padding:16px;
   padding-left:max(16px,env(safe-area-inset-left));
   padding-right:max(16px,env(safe-area-inset-right));
   padding-top:max(16px,env(safe-area-inset-top));
   padding-bottom:max(16px,env(safe-area-inset-bottom));
 }
 
-/* Grid: mobile-first single column; ≥880px → two columns */
-.grid{display:grid; grid-template-columns:1fr; gap:var(--gap)}
-@media (min-width:880px){
-  .grid{grid-template-columns: 1fr 1fr; gap:var(--gap-lg)}
-}
+/* grid */
+.grid{display:grid;grid-template-columns:1fr;gap:var(--gap)}
+@media (min-width:880px){.grid{grid-template-columns:1fr 1fr;gap:var(--gap-lg)}}
 
-/* Global blocks */
-header.site{grid-column:1/-1; text-align:center}
-header.site h1{margin:8px 0 4px 0; font-size:clamp(18px,4.6vw,28px)}
+/* blocks */
+header.site{grid-column:1/-1;text-align:center}
+header.site h1{margin:8px 0 4px 0;font-size:clamp(18px,4.6vw,28px)}
 .small{font-size:12px;color:var(--fg-dim)}
 .center{text-align:center}
 hr{border:none;border-top:var(--rule);margin:12px 0}
 footer{grid-column:1/-1;border-top:var(--rule);margin-top:12px;padding-top:10px;text-align:center;color:var(--fg-dim)}
 
-/* Nav (divider via border-bottom) */
-nav{
-  grid-column:1/-1; display:flex; gap:12px; align-items:center;
-  border-bottom:var(--rule); padding:8px 0
-}
-nav a{text-decoration:underline}
+/* nav */
+nav{grid-column:1/-1;display:flex;gap:12px;align-items:center;border-bottom:var(--rule);padding:8px 0}
 nav img{width:24px;height:24px;border:none}
-/* Active menu item */
-nav a.current, nav a[aria-current="page"]{
-  font-style: italic;
-  text-decoration: none;
-}
-/* Notice card (Home mission; About blurb) */
-.notice{
-  grid-column:1/-1; background:var(--bg); border:1px dashed var(--fg); padding:10px
-}
+nav a.current,nav a[aria-current="page"]{font-style:italic;text-decoration:underline}
 
-/* Randomart tile (now on Home; centered) */
-#idcard{
-  grid-column:1/-1; border:var(--rule); padding:12px; background:var(--bg);
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  text-align:center; gap:6px;
-}
-#randomart{
-  white-space:pre; line-height:1.0; font-size:11px; color:var(--fg);
-  /* shrink to content so centering actually centers the art */
-  width:max-content; max-width:100%;
-}
-#idcard .cap{
-  font-size:12px; color:var(--fg-dim);
-  word-break:break-all; overflow-wrap:anywhere;  /* long addresses won’t stretch the page */
-}
-/* Content */
+/* one-liners */
+.notice{grid-column:1/-1;background:var(--bg);border:1px dashed var(--fg);padding:10px}
+
+/* randomart tile (About only) */
+#idcard{grid-column:1/-1;border:var(--rule);padding:12px;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px}
+#randomart{white-space:pre;line-height:1.0;font-size:11px;color:var(--fg);width:max-content;max-width:100%}
+#idcard .cap{font-size:12px;color:var(--fg-dim);word-break:break-all;overflow-wrap:anywhere}
+
+/* content */
 figure{margin:0 0 12px 0}
-.gallery{display:grid; grid-template-columns:1fr 1fr; gap:12px}
-@media (min-width:880px){ .gallery{grid-template-columns:1fr 1fr 1fr} }
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (min-width:880px){.gallery{grid-template-columns:1fr 1fr 1fr}}
 
-/* Utility */
+/* util */
 .fullrow{grid-column:1/-1}
 
-/* Page-specific helpers */
-.latest h2{margin:8px 0 4px}
+/* placeholder style (shared “nothing here…” look) */
+.placeholder{color:var(--fg-dim);font-style:italic}
 
-/* Mobile-wide centering for main sections (matches News behavior) */
+/* mobile-wide centering */
 @media (max-width:879px){
-  header.site, .notice, .latest, .posts, .fullrow, footer { text-align:center }
+  header.site,.notice,.latest,.posts,.fullrow,footer{text-align:center}
 }
