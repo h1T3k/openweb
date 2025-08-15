@@ -1,0 +1,11 @@
+{
+  "posts": [
+    // Example post (delete this object when you add real ones)
+    {
+      "title": "Website Launch & Active Construction",
+      "date": "2025-08-15",
+      "url": "news.html#launch",
+      "excerpt": "Branding, typography, and layout studies."
+    }
+  ]
+}
