@@ -8,13 +8,12 @@ if (!isWelcome && !isHome) {
   }
 }
 
-// --- Utilities ---
+/* ---------- Utilities ---------- */
 async function sha256Hex(str) {
   const enc = new TextEncoder().encode(str);
   const buf = await crypto.subtle.digest('SHA-256', enc);
   return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,'0')).join('');
 }
-
 function drunkenBishop(hex, cols=17, rows=9) {
   const moves = [[-1,-1],[+1,-1],[-1,+1],[+1,+1]];
   const bytes = hex.match(/.{2}/g).map(h=>parseInt(h,16));
@@ -49,10 +48,10 @@ function drunkenBishop(hex, cols=17, rows=9) {
   return lines.join("\n");
 }
 
-// --- Main init ---
+/* ---------- Init ---------- */
 (async () => {
   try {
-    // Nav: mark current page
+    /* Active nav */
     const currentFile = (() => {
       const f = location.pathname.split('/').pop();
       return f && f.length ? f : 'index.html';
@@ -65,7 +64,7 @@ function drunkenBishop(hex, cols=17, rows=9) {
       }
     });
 
-    // Identity / tips / randomart (if the elements exist)
+    /* Randomart + caption + tip (only fills if elements exist) */
     const cfg = await (await fetch('site.json')).json();
     const addr = (cfg.admin_address||'').trim();
     const cap  = cfg.caption || "On-chain site identity";
@@ -80,8 +79,49 @@ function drunkenBishop(hex, cols=17, rows=9) {
       if (tipEl) tipEl.textContent = addr;
     }
 
+    /* News feed → Home + News */
+    const res = await fetch('news.json', {cache:'no-store'});
+    const feed = res.ok ? await res.json() : {posts:[]};
+    const posts = Array.isArray(feed.posts) ? feed.posts.slice() : [];
+    // newest first by date (YYYY-MM-DD)
+    posts.sort((a,b)=> String(b.date||'').localeCompare(String(a.date||'')));
+
+    // Home: show newest one post
+    const homeWrap = document.getElementById('home-latest');
+    if (homeWrap) {
+      const target = homeWrap.querySelector('.placeholder');
+      if (posts.length && posts[0]) {
+        const p = posts[0];
+        homeWrap.innerHTML = `
+          <h2>latest...</h2>
+          <p><strong>${p.title||'Untitled'}</strong> — <a href="${p.url||'news.html'}">read</a></p>
+          <p class="small">${p.date||''}</p>
+        `;
+      } else if (!target) {
+        homeWrap.innerHTML = `<h2>latest...</h2><p class="placeholder"><em>nothing here...</em></p>`;
+      }
+    }
+
+    // News page: list all or placeholder
+    const newsList = document.getElementById('news-list');
+    if (newsList) {
+      if (posts.length === 0) {
+        newsList.innerHTML = `<p class="placeholder"><em>nothing here...</em></p>`;
+      } else {
+        newsList.innerHTML = posts.map(p=>`
+          <article class="fullrow">
+            <h3>${p.title||'Untitled'}</h3>
+            <p class="small">${p.date||''}</p>
+            ${p.excerpt ? `<p>${p.excerpt}</p>` : ``}
+            <p><a href="${p.url||'news.html'}">open</a></p>
+            <hr>
+          </article>
+        `).join('');
+      }
+    }
+
     if (isHome) sessionStorage.setItem('preloaded', '1');
-  } catch {
+  } catch (e) {
     const artEl = document.getElementById('randomart');
     if (artEl) artEl.textContent = "(identity load error)";
   }
