@@ -8,53 +8,41 @@
 </head>
 <body>
   <div class="wrap grid">
-    <!-- Top-left identity tile (unchanged) -->
-    <div id="idcard">
-      <div id="randomart">(loading identity…)</div>
-      <div class="cap small" id="idcap">site identity</div>
-    </div>
+    <!-- NO idcard/randomart on Home -->
 
-    <!-- Top nav (unchanged) -->
     <nav>
       <img src="assets/icons/logo.svg" alt="logo" width="24" height="24">
       <a href="home.html">Home</a>
       <a href="news.html" class="laterallink">News</a>
       <a href="about.html" class="laterallink">About</a>
       <a href="contact.html" class="laterallink">Contact</a>
+      <a href="design.html" class="laterallink">Design</a>
+      <a href="links.html" class="laterallink">Links</a>
     </nav>
 
-    <!-- Home page header (unchanged) -->
     <header class="site center">
       <h1>Keaton Raser — Portfolio</h1>
       <div class="small">simple. fast. censorship-resistant. on-chain.</div>
     </header>
 
-    <!-- Your dotted-line mission block (unchanged) -->
-    <section class="notice center">
-      <strong>Mission:</strong> straight-to-the-point design & typography.
-    </section>
+    <!-- Shared dotted notice -->
+    <div id="notice-slot" class="fullrow"></div>
 
-    <!-- ***** NEW: make Home’s “Latest” block use the SAME structure/spacing as News ***** -->
-    <!-- We literally reuse the News page rhythm: header.site + .posts -->
+    <!-- Home mirrors News rhythm and content -->
     <header class="site">
       <h1>Latest</h1>
       <div class="small">articles & updates</div>
     </header>
 
-    <!-- This is where we inject the News feed (or “nothing here…”) verbatim -->
     <section class="posts fullrow" id="home-latest">
-      <!-- JS will fetch news.html and paste its .posts innerHTML here -->
       <p class="small"><em>Loading latest…</em></p>
     </section>
-    <!-- ***** end latest ***** -->
 
-    <!-- Footer (unchanged) -->
     <footer>
       <div>© 2025 K.R.</div>
       <div class="small">Tip: <code id="tipaddr">0xYourWalletHere</code></div>
     </footer>
   </div>
-
   <script type="module" src="assets/js/init.js"></script>
 </body>
 </html>
