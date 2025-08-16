@@ -1,61 +1,59 @@
-/* Base */
+/* Two-column layout with a top bar.
+   Home shows full left rail (#idcard) + nav.
+   Other pages collapse to slim top bar (#crumb). */
+
 :root { --col:#000; --bg:#fff; --rule:1px solid #000; --w:940px; --gap:16px; }
 * { box-sizing: border-box; }
 html, body { margin:0; padding:0; background:var(--bg); color:var(--col); font-family: monospace; }
 .wrap { max-width: var(--w); margin: 0 auto; padding: 16px; }
 
-/* Grid */
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
 
-/* Identity tile (used only on collapsed pages, not Home) */
 #idcard { border: var(--rule); padding: 12px; background: #fafafa; }
 #idcard .cap { font-size:12px; color:#333; margin-top:6px; }
 #randomart { white-space: pre; line-height: 1.0; font-size: 11px; color:#0a0; }
 
-/* Blocks spanning both columns */
 nav, header.site, hr, footer, .notice, .fullrow { grid-column: 1 / -1; }
 
-/* Nav (bring back italic + underline) */
 nav { display:flex; gap:12px; align-items:center; border-bottom: var(--rule); padding: 8px 0; }
-nav a { color:#00c; text-decoration: underline; font-style: italic; }
+nav a { color:#00c; text-decoration: underline; }
 
-/* Collapsed crumb bar */
-#crumb { display:none; align-items:center; gap:8px; border-bottom: var(--rule); padding:6px 0; }
-#crumb img { width:16px; height:16px; border:none; }
-#crumb a { color:#00c; text-decoration: underline; font-style: italic; }
-
-/* Collapsed pages: hide left rail + nav; show crumb */
-body.collapsed #idcard { display:block; }           /* we DO show idcard on collapsed pages */
-body.collapsed nav { display:none; }
-body.collapsed #crumb { display:flex; }
-
-/* Type & elements */
 header.site { text-align:center; margin:18px 0; }
+
 hr { border:none; border-top:var(--rule); margin:14px 0; }
+
 figure { margin:0 0 12px 0; }
 img { max-width:100%; height:auto; display:block; border:1px solid #000; }
 footer { border-top:var(--rule); margin-top:16px; padding-top:12px; text-align:center; color:#333; }
 .small { font-size:12px; color:#333; }
 .center { text-align:center; }
-
-/* Dotted-line notice (shared partial) */
-.notice { background:#fafafa; border:1px dashed #000; padding:8px; margin-bottom:18px; }
-
-/* Posts + gallery */
-.posts { }
+.notice { background:#fafafa; border:1px dashed #000; padding:8px; margin-bottom:18px; } /* keep rhythm */
 .gallery { display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
 
-/* Design page placeholders (square) */
-.ph { display:block; position:relative; border:1px dashed #000; background:#fafafa; }
-.ph-square { width: min(92vw, 440px); aspect-ratio: 1 / 1; margin: 0 auto; }
-.ph::after {
-  content: attr(data-label);
-  position:absolute; left:50%; top:50%;
-  transform: translate(-50%, -50%);
-  font-size: 12px; color:#333; text-align:center; padding: 2px 6px;
-}
+/* Slim crumb bar on non-home pages (collapsed mode) */
+#crumb { display:none; align-items:center; gap:8px; border-bottom: var(--rule); padding:6px 0; }
+#crumb img { width:16px; height:16px; border:none; }
+#crumb a { color:#00c; text-decoration: none; }
 
-/* Responsive tweak */
-@media (min-width: 720px) {
-  .gallery.design { grid-template-columns: 1fr 1fr; }
+/* Collapsed mode: hide left rail + nav; show crumb */
+body.collapsed #idcard { display:none; }
+body.collapsed nav { display:none; }
+body.collapsed #crumb { display:flex; }
+
+/* Placeholder frames for Design page */
+.ph {
+  width: 100%;
+  aspect-ratio: 1 / 1;         /* square */
+  background: #eee;
+  border: 1px solid #000;
+  display: grid;
+  place-items: center;
+  color: #333;
+  font-size: 12px;
 }
+.ph .cap { margin-top: 6px; color:#666; }
+
+/* Links list */
+.links { list-style: none; padding: 0; margin: 0; }
+.links li { padding: 8px 0; border-bottom: 1px dotted #999; }
+.links a { color:#00c; text-decoration: underline; word-break: break-all; }
