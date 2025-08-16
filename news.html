@@ -3,33 +3,34 @@
 <head>
 <meta charset="utf-8">
 <title>News</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="styles/main.css">
 </head>
-<body>
+<body class="collapsed">
   <div class="wrap grid">
-    <nav>
+    <div id="crumb" class="fullrow">
       <img src="assets/icons/logo.svg" alt="logo">
-      <a href="home.html">Home</a>
-      <a href="news.html">News</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-    </nav>
+      <a href="home.html" id="pathlink">/news</a>
+    </div>
 
-    <section class="notice center">
-      independent design and typography
-    </section>
+    <div id="idcard"><div id="randomart"></div><div class="cap small" id="idcap"></div></div>
 
     <header class="site">
       <h1>News</h1>
       <div class="small">articles & updates</div>
     </header>
 
-    <section id="news-list" class="posts fullrow center">
-      <p class="placeholder"><em>nothing here...</em></p>
+    <!-- Shared dotted-line notice -->
+    <section id="notice" class="notice center"></section>
+
+    <section class="posts fullrow">
+      <p><em>nothing here…</em></p>
+      <!-- Your posts will go here later -->
     </section>
 
-    <footer class="center small fullrow">© 2025 k.b.r.</footer>
+    <footer class="center small fullrow">
+      <a href="news.welcome.html">Open via Welcome first</a>
+    </footer>
   </div>
   <script type="module" src="assets/js/init.js"></script>
 </body>
