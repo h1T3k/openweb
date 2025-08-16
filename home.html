@@ -3,50 +3,35 @@
 <head>
 <meta charset="utf-8">
 <title>Home</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="stylesheet" href="styles/main.css">
 </head>
-<body class="collapsed">
+<body>
   <div class="wrap grid">
-    <!-- Slim top bar (identical component/placement as News) -->
-    <div id="crumb" class="fullrow">
+    <nav>
       <img src="assets/icons/logo.svg" alt="logo">
-      <a href="home.html" id="pathlink">/home</a>
-    </div>
+      <a href="home.html">Home</a>
+      <a href="news.html">News</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
 
-    <!-- Left rail stub kept for identical grid geometry; hidden by .collapsed -->
-    <div id="idcard">
-      <div id="randomart"></div>
-      <div class="cap small" id="idcap"></div>
-    </div>
-
-    <!-- Page header: "Latest" occupies the exact same slot as "News" on News page -->
-    <header class="site">
-      <h1>Latest</h1>
-      <div class="small">Keaton Raser — Portfolio</div>
-    </header>
-
-    <!-- Your mission block spans full width, same as on other pages -->
-    <section class="notice center fullrow">
-      <strong>Mission:</strong> straight-to-the-point design & typography.
+    <section class="notice center">
+      independent design and typography
     </section>
 
-    <!-- Main content area (same row/column span as News.posts) -->
-    <section class="fullrow">
-      <!-- If you already have a Launch post in news.html, you can echo a teaser here or leave it minimal -->
-      <p><em>nothing here...</em></p>
-      <!-- Example (when ready):
-      <p><strong>Launch:</strong> <a href="news.html#launch">Portfolio Launch — 2025-08-12</a></p>
-      -->
+    <!-- Latest mirrors newest News post -->
+    
+    <section id="home-latest" class="fullrow center latest">
+      <h2>Latest...</h2>
     </section>
-
-    <!-- Footer: wallet removed on Home (per your request) -->
-    <footer class="center small fullrow">
-      © 2025 k.b.r.
+    
+    <footer>
+      <div>© 2025 k.b.r.</div>
+      <div class="small">Tip (ETH): <code class="addr" id="tipaddr">0xaa83575024d50ce6d134aaafb07a3bbd6af837f3</code></div>
     </footer>
   </div>
 
-  <!-- Same module used everywhere; keeps crumb behavior consistent -->
   <script type="module" src="assets/js/init.js"></script>
 </body>
 </html>
