@@ -8,27 +8,31 @@
 </head>
 <body>
   <div class="wrap grid">
-    <!-- NO idcard/randomart on Home -->
+    <!-- Identity tile -->
+    <div id="idcard">
+      <div id="randomart">(loading identity…)</div>
+      <div class="cap small" id="idcap">site identity</div>
+    </div>
 
+    <!-- Top nav -->
     <nav>
       <img src="assets/icons/logo.svg" alt="logo" width="24" height="24">
       <a href="home.html">Home</a>
       <a href="news.html" class="laterallink">News</a>
       <a href="about.html" class="laterallink">About</a>
       <a href="contact.html" class="laterallink">Contact</a>
-      <a href="design.html" class="laterallink">Design</a>
-      <a href="links.html" class="laterallink">Links</a>
     </nav>
 
+    <!-- Page header -->
     <header class="site center">
       <h1>Keaton Raser — Portfolio</h1>
       <div class="small">simple. fast. censorship-resistant. on-chain.</div>
     </header>
 
-    <!-- Shared dotted notice -->
-    <div id="notice-slot" class="fullrow"></div>
+    <!-- Shared dotted-line notice (loaded from assets/snippets/notice.html) -->
+    <section id="notice" class="notice center"></section>
 
-    <!-- Home mirrors News rhythm and content -->
+    <!-- Latest: identical structure/spacing to News -->
     <header class="site">
       <h1>Latest</h1>
       <div class="small">articles & updates</div>
@@ -38,6 +42,7 @@
       <p class="small"><em>Loading latest…</em></p>
     </section>
 
+    <!-- Footer -->
     <footer>
       <div>© 2025 K.R.</div>
       <div class="small">Tip: <code id="tipaddr">0xYourWalletHere</code></div>
