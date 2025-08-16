@@ -1,14 +1,18 @@
-// Session gate: require Welcome preload for non-Home pages
+// assets/js/init.js
+// - Gate: force first-time visitors through Welcome to set sessionStorage.preloaded
+// - Randomart from site.json.admin_address
+// - Collapsed pages: breadcrumb takes you Home (no lateral nav)
+// - NEW: Home mirrors the News feed by fetching news.html and copying its .posts HTML
+
 const isWelcome = location.pathname.endsWith('/index.html') || location.pathname.endsWith('/') || location.pathname === '';
 const isHome    = location.pathname.endsWith('/home.html');
 
 if (!isWelcome && !isHome) {
   if (!sessionStorage.getItem('preloaded')) {
-    location.replace('index.html');
+    location.replace('index.html'); // preload via Welcome first
   }
 }
 
-/* ---------- Utilities ---------- */
 async function sha256Hex(str) {
   const enc = new TextEncoder().encode(str);
   const buf = await crypto.subtle.digest('SHA-256', enc);
@@ -49,89 +53,54 @@ function drunkenBishop(hex, cols=17, rows=9) {
   return lines.join("\n");
 }
 
-/* ---------- Init ---------- */
 (async () => {
   try {
-    /* Active nav */
-    const currentFile = (() => {
-      const f = location.pathname.split('/').pop();
-      return f && f.length ? f : 'index.html';
-    })();
-    document.querySelectorAll('nav a[href]').forEach(a => {
-      const hrefFile = a.getAttribute('href').split('/').pop();
-      if (hrefFile === currentFile) {
-        a.classList.add('current');
-        a.setAttribute('aria-current','page');
-      }
-    });
-
-    /* Randomart + caption + tip (only fills if elements exist) */
-    const res = await fetch('site.json', { cache: 'no-store' });
-    if (res.ok) {
-      const cfg = await res.json();
-      const addr = (cfg.admin_address || '').trim();
-      const cap  = cfg.caption || "On-chain site identity";
+    // Identity tile
+    const cfg = await (await fetch('site.json')).json();
+    const addr = (cfg.admin_address||'').trim();
+    const cap  = cfg.caption || "On-chain site identity";
+    if (addr) {
+      const hex = await sha256Hex(addr);
+      const art = drunkenBishop(hex, 17, 9);
       const artEl = document.getElementById('randomart');
       const capEl = document.getElementById('idcap');
       const tipEl = document.getElementById('tipaddr');
-
-      if (addr) {
-        const hex = await sha256Hex(addr);
-        const art = drunkenBishop(hex, 17, 9);
-        if (artEl) artEl.textContent = art + "\nsha256:" + hex.slice(0,16) + "…";
-        if (capEl) capEl.textContent = cap + " — " + addr;
-        if (tipEl) tipEl.textContent = addr;
-      } else if (artEl) {
-        artEl.textContent = "(identity load error: missing admin_address in site.json)";
-      }
+      if (artEl) artEl.textContent = art + "\nsha256:" + hex.slice(0,16) + "…";
+      if (capEl) capEl.textContent = cap + " — " + addr;
+      if (tipEl) tipEl.textContent = addr;
     }
 
-    /* News feed → Home + News (shared placeholder style) */
-    let posts = [];
-    try {
-      const feedRes = await fetch('news.json', { cache: 'no-store' });
-      if (feedRes.ok) {
-        const feed = await feedRes.json();
-        posts = Array.isArray(feed.posts) ? feed.posts.slice() : [];
-      }
-    } catch {}
-
-    posts.sort((a,b)=> String(b.date||'').localeCompare(String(a.date||'')));
-
-    // Home: show newest one post or placeholder
-    const homeWrap = document.getElementById('home-latest');
-    if (homeWrap) {
-      if (posts.length) {
-        const p = posts[0];
-        homeWrap.innerHTML = `
-          <h2>latest...</h2>
-          <p><strong>${p.title||'Untitled'}</strong> — <a href="${p.url||'news.html'}">read</a></p>
-          <p class="small">${p.date||''}</p>
-        `;
-      } else {
-        homeWrap.innerHTML = `<h2>latest...</h2><p class="placeholder"><em>nothing here...</em></p>`;
-      }
+    // Collapsed pages: breadcrumb always returns Home
+    if (document.body.classList.contains('collapsed')) {
+      const link = document.getElementById('pathlink');
+      if (link) link.addEventListener('click', (e) => { e.preventDefault(); location.href = 'home.html'; });
     }
 
-    // News page: list all or placeholder
-    const newsList = document.getElementById('news-list');
-    if (newsList) {
-      if (posts.length === 0) {
-        newsList.innerHTML = `<p class="placeholder"><em>nothing here...</em></p>`;
-      } else {
-        newsList.innerHTML = posts.map(p=>`
-          <article class="fullrow">
-            <h3>${p.title||'Untitled'}</h3>
-            <p class="small">${p.date||''}</p>
-            ${p.excerpt ? `<p>${p.excerpt}</p>` : ``}
-            <p><a href="${p.url||'news.html'}">open</a></p>
-            <hr>
-          </article>
-        `).join('');
-      }
-    }
-
+    // Mark session as preloaded when Home loads
     if (isHome) sessionStorage.setItem('preloaded', '1');
+
+    // NEW: On Home, mirror the News feed into #home-latest so spacing + content match
+    if (isHome) {
+      const slot = document.getElementById('home-latest');
+      if (slot) {
+        try {
+          const text = await (await fetch('news.html')).text();
+          const doc  = new DOMParser().parseFromString(text, 'text/html');
+          const posts = doc.querySelector('.posts');
+          if (posts) {
+            // Copy the entire .posts innerHTML so:
+            // - if News says “nothing here…”, Home shows it too
+            // - if there’s "<article>…</article>", Home shows the same first content/structure
+            slot.innerHTML = posts.innerHTML;
+          } else {
+            slot.innerHTML = '<p><em>(no posts)</em></p>';
+          }
+        } catch {
+          slot.innerHTML = '<p><em>(could not load latest)</em></p>';
+        }
+      }
+    }
+
   } catch {
     const artEl = document.getElementById('randomart');
     if (artEl) artEl.textContent = "(identity load error)";
