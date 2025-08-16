@@ -3,31 +3,55 @@
 <head>
 <meta charset="utf-8">
 <title>Home</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
   <div class="wrap grid">
+    <!-- Top-left identity tile (unchanged) -->
+    <div id="idcard">
+      <div id="randomart">(loading identity…)</div>
+      <div class="cap small" id="idcap">site identity</div>
+    </div>
+
+    <!-- Top nav (unchanged) -->
     <nav>
-      <img src="assets/icons/logo.svg" alt="logo">
+      <img src="assets/icons/logo.svg" alt="logo" width="24" height="24">
       <a href="home.html">Home</a>
-      <a href="news.html">News</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
+      <a href="news.html" class="laterallink">News</a>
+      <a href="about.html" class="laterallink">About</a>
+      <a href="contact.html" class="laterallink">Contact</a>
     </nav>
 
+    <!-- Home page header (unchanged) -->
+    <header class="site center">
+      <h1>Keaton Raser — Portfolio</h1>
+      <div class="small">simple. fast. censorship-resistant. on-chain.</div>
+    </header>
+
+    <!-- Your dotted-line mission block (unchanged) -->
     <section class="notice center">
-      independent design and typography
+      <strong>Mission:</strong> straight-to-the-point design & typography.
     </section>
 
-    <!-- Latest mirrors newest News post -->
-    
-    <section id="home-latest" class="fullrow center latest">
-      <h2>Latest...</h2>
+    <!-- ***** NEW: make Home’s “Latest” block use the SAME structure/spacing as News ***** -->
+    <!-- We literally reuse the News page rhythm: header.site + .posts -->
+    <header class="site">
+      <h1>Latest</h1>
+      <div class="small">articles & updates</div>
+    </header>
+
+    <!-- This is where we inject the News feed (or “nothing here…”) verbatim -->
+    <section class="posts fullrow" id="home-latest">
+      <!-- JS will fetch news.html and paste its .posts innerHTML here -->
+      <p class="small"><em>Loading latest…</em></p>
     </section>
-    
+    <!-- ***** end latest ***** -->
+
+    <!-- Footer (unchanged) -->
     <footer>
-      <div>© 2025 k.b.r.</div>
+      <div>© 2025 K.R.</div>
+      <div class="small">Tip: <code id="tipaddr">0xYourWalletHere</code></div>
     </footer>
   </div>
 
