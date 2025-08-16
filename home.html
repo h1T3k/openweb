@@ -3,51 +3,35 @@
 <head>
 <meta charset="utf-8">
 <title>Home</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
   <div class="wrap grid">
-    <!-- Identity tile -->
-    <div id="idcard">
-      <div id="randomart">(loading identity…)</div>
-      <div class="cap small" id="idcap">site identity</div>
-    </div>
-
-    <!-- Top nav -->
     <nav>
-      <img src="assets/icons/logo.svg" alt="logo" width="24" height="24">
+      <img src="assets/icons/logo.svg" alt="logo">
       <a href="home.html">Home</a>
-      <a href="news.html" class="laterallink">News</a>
-      <a href="about.html" class="laterallink">About</a>
-      <a href="contact.html" class="laterallink">Contact</a>
+      <a href="news.html">News</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
     </nav>
 
-    <!-- Page header -->
-    <header class="site center">
-      <h1>Keaton Raser — Portfolio</h1>
-      <div class="small">simple. fast. censorship-resistant. on-chain.</div>
-    </header>
-
-    <!-- Shared dotted-line notice (loaded from assets/snippets/notice.html) -->
-    <section id="notice" class="notice center"></section>
-
-    <!-- Latest: identical structure/spacing to News -->
-    <header class="site">
-      <h1>Latest</h1>
-      <div class="small">articles & updates</div>
-    </header>
-
-    <section class="posts fullrow" id="home-latest">
-      <p class="small"><em>Loading latest…</em></p>
+    <section class="notice center">
+      independent design and typography
     </section>
 
-    <!-- Footer -->
+    <!-- Latest mirrors newest News post -->
+    
+    <section id="home-latest" class="fullrow center latest">
+      <h2>Latest...</h2>
+    </section>
+    
     <footer>
-      <div>© 2025 K.R.</div>
-      <div class="small">Tip: <code id="tipaddr">0xYourWalletHere</code></div>
+      <div>© 2025 k.b.r.</div>
+      <div class="small">Tip (ETH): <code class="addr" id="tipaddr">0xaa83575024d50ce6d134aaafb07a3bbd6af837f3</code></div>
     </footer>
   </div>
+
   <script type="module" src="assets/js/init.js"></script>
 </body>
 </html>
