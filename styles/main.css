@@ -57,7 +57,8 @@ figure{margin:0 0 12px 0}
 
 /* placeholder style (shared “nothing here…” look) */
 .placeholder{color:var(--fg-dim);font-style:italic}
-
+/* Keep the same vertical beat from the mission block to the next header */
+.notice { margin-bottom: 18px; }
 /* mobile-wide centering */
 @media (max-width:879px){
   header.site,.notice,.latest,.posts,.fullrow,footer{text-align:center}
