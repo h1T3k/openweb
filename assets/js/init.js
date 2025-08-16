@@ -2,7 +2,8 @@
 // - Gate: force first-time visitors through Welcome to set sessionStorage.preloaded
 // - Randomart from site.json.admin_address
 // - Collapsed pages: breadcrumb takes you Home (no lateral nav)
-// - NEW: Home mirrors the News feed by fetching news.html and copying its .posts HTML
+// - Home: mirror the News feed by copying its .posts HTML
+// - EVERY page: load shared dotted-line notice from assets/snippets/notice.html
 
 const isWelcome = location.pathname.endsWith('/index.html') || location.pathname.endsWith('/') || location.pathname === '';
 const isHome    = location.pathname.endsWith('/home.html');
@@ -53,6 +54,17 @@ function drunkenBishop(hex, cols=17, rows=9) {
   return lines.join("\n");
 }
 
+async function loadNotice() {
+  const slot = document.getElementById('notice');
+  if (!slot) return;
+  try {
+    const html = await (await fetch('assets/snippets/notice.html', { cache:'no-store' })).text();
+    slot.innerHTML = html;
+  } catch {
+    slot.innerHTML = '<strong>independent design and typography</strong>';
+  }
+}
+
 (async () => {
   try {
     // Identity tile
@@ -79,22 +91,18 @@ function drunkenBishop(hex, cols=17, rows=9) {
     // Mark session as preloaded when Home loads
     if (isHome) sessionStorage.setItem('preloaded', '1');
 
-    // NEW: On Home, mirror the News feed into #home-latest so spacing + content match
+    // Shared dotted-line notice on every page
+    await loadNotice();
+
+    // Home mirrors News feed (spacing + content)
     if (isHome) {
       const slot = document.getElementById('home-latest');
       if (slot) {
         try {
-          const text = await (await fetch('news.html')).text();
+          const text = await (await fetch('news.html', { cache:'no-store' })).text();
           const doc  = new DOMParser().parseFromString(text, 'text/html');
           const posts = doc.querySelector('.posts');
-          if (posts) {
-            // Copy the entire .posts innerHTML so:
-            // - if News says “nothing here…”, Home shows it too
-            // - if there’s "<article>…</article>", Home shows the same first content/structure
-            slot.innerHTML = posts.innerHTML;
-          } else {
-            slot.innerHTML = '<p><em>(no posts)</em></p>';
-          }
+          slot.innerHTML = posts ? posts.innerHTML : '<p><em>(no posts)</em></p>';
         } catch {
           slot.innerHTML = '<p><em>(could not load latest)</em></p>';
         }
