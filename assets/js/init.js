@@ -1,19 +1,14 @@
-// assets/js/init.js
-// - Gate: force first-time visitors through Welcome to set sessionStorage.preloaded
-// - Randomart from site.json.admin_address
-// - Collapsed pages: breadcrumb takes you Home (no lateral nav)
-// - Home: mirror the News feed by copying its .posts HTML
-// - EVERY page: load shared dotted-line notice from assets/snippets/notice.html
-
+// Session gate: require Welcome preload for non-Home pages
 const isWelcome = location.pathname.endsWith('/index.html') || location.pathname.endsWith('/') || location.pathname === '';
 const isHome    = location.pathname.endsWith('/home.html');
 
 if (!isWelcome && !isHome) {
   if (!sessionStorage.getItem('preloaded')) {
-    location.replace('index.html'); // preload via Welcome first
+    location.replace('index.html');
   }
 }
 
+/* ---------- Utilities ---------- */
 async function sha256Hex(str) {
   const enc = new TextEncoder().encode(str);
   const buf = await crypto.subtle.digest('SHA-256', enc);
@@ -54,61 +49,89 @@ function drunkenBishop(hex, cols=17, rows=9) {
   return lines.join("\n");
 }
 
-async function loadNotice() {
-  const slot = document.getElementById('notice');
-  if (!slot) return;
-  try {
-    const html = await (await fetch('assets/snippets/notice.html', { cache:'no-store' })).text();
-    slot.innerHTML = html;
-  } catch {
-    slot.innerHTML = '<strong>independent design and typography</strong>';
-  }
-}
-
+/* ---------- Init ---------- */
 (async () => {
   try {
-    // Identity tile
-    const cfg = await (await fetch('site.json')).json();
-    const addr = (cfg.admin_address||'').trim();
-    const cap  = cfg.caption || "On-chain site identity";
-    if (addr) {
-      const hex = await sha256Hex(addr);
-      const art = drunkenBishop(hex, 17, 9);
+    /* Active nav */
+    const currentFile = (() => {
+      const f = location.pathname.split('/').pop();
+      return f && f.length ? f : 'index.html';
+    })();
+    document.querySelectorAll('nav a[href]').forEach(a => {
+      const hrefFile = a.getAttribute('href').split('/').pop();
+      if (hrefFile === currentFile) {
+        a.classList.add('current');
+        a.setAttribute('aria-current','page');
+      }
+    });
+
+    /* Randomart + caption + tip (only fills if elements exist) */
+    const res = await fetch('site.json', { cache: 'no-store' });
+    if (res.ok) {
+      const cfg = await res.json();
+      const addr = (cfg.admin_address || '').trim();
+      const cap  = cfg.caption || "On-chain site identity";
       const artEl = document.getElementById('randomart');
       const capEl = document.getElementById('idcap');
       const tipEl = document.getElementById('tipaddr');
-      if (artEl) artEl.textContent = art + "\nsha256:" + hex.slice(0,16) + "…";
-      if (capEl) capEl.textContent = cap + " — " + addr;
-      if (tipEl) tipEl.textContent = addr;
-    }
 
-    // Collapsed pages: breadcrumb always returns Home
-    if (document.body.classList.contains('collapsed')) {
-      const link = document.getElementById('pathlink');
-      if (link) link.addEventListener('click', (e) => { e.preventDefault(); location.href = 'home.html'; });
-    }
-
-    // Mark session as preloaded when Home loads
-    if (isHome) sessionStorage.setItem('preloaded', '1');
-
-    // Shared dotted-line notice on every page
-    await loadNotice();
-
-    // Home mirrors News feed (spacing + content)
-    if (isHome) {
-      const slot = document.getElementById('home-latest');
-      if (slot) {
-        try {
-          const text = await (await fetch('news.html', { cache:'no-store' })).text();
-          const doc  = new DOMParser().parseFromString(text, 'text/html');
-          const posts = doc.querySelector('.posts');
-          slot.innerHTML = posts ? posts.innerHTML : '<p><em>(no posts)</em></p>';
-        } catch {
-          slot.innerHTML = '<p><em>(could not load latest)</em></p>';
-        }
+      if (addr) {
+        const hex = await sha256Hex(addr);
+        const art = drunkenBishop(hex, 17, 9);
+        if (artEl) artEl.textContent = art + "\nsha256:" + hex.slice(0,16) + "…";
+        if (capEl) capEl.textContent = cap + " — " + addr;
+        if (tipEl) tipEl.textContent = addr;
+      } else if (artEl) {
+        artEl.textContent = "(identity load error: missing admin_address in site.json)";
       }
     }
 
+    /* News feed → Home + News (shared placeholder style) */
+    let posts = [];
+    try {
+      const feedRes = await fetch('news.json', { cache: 'no-store' });
+      if (feedRes.ok) {
+        const feed = await feedRes.json();
+        posts = Array.isArray(feed.posts) ? feed.posts.slice() : [];
+      }
+    } catch {}
+
+    posts.sort((a,b)=> String(b.date||'').localeCompare(String(a.date||'')));
+
+    // Home: show newest one post or placeholder
+    const homeWrap = document.getElementById('home-latest');
+    if (homeWrap) {
+      if (posts.length) {
+        const p = posts[0];
+        homeWrap.innerHTML = `
+          <h2>latest...</h2>
+          <p><strong>${p.title||'Untitled'}</strong> — <a href="${p.url||'news.html'}">read</a></p>
+          <p class="small">${p.date||''}</p>
+        `;
+      } else {
+        homeWrap.innerHTML = `<h2>latest...</h2><p class="placeholder"><em>nothing here...</em></p>`;
+      }
+    }
+
+    // News page: list all or placeholder
+    const newsList = document.getElementById('news-list');
+    if (newsList) {
+      if (posts.length === 0) {
+        newsList.innerHTML = `<p class="placeholder"><em>nothing here...</em></p>`;
+      } else {
+        newsList.innerHTML = posts.map(p=>`
+          <article class="fullrow">
+            <h3>${p.title||'Untitled'}</h3>
+            <p class="small">${p.date||''}</p>
+            ${p.excerpt ? `<p>${p.excerpt}</p>` : ``}
+            <p><a href="${p.url||'news.html'}">open</a></p>
+            <hr>
+          </article>
+        `).join('');
+      }
+    }
+
+    if (isHome) sessionStorage.setItem('preloaded', '1');
   } catch {
     const artEl = document.getElementById('randomart');
     if (artEl) artEl.textContent = "(identity load error)";
