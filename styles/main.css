@@ -1,65 +1,61 @@
-/* Dark theme tokens */
-:root{
-  --bg:#000; --fg:#0f0; --fg-dim:#7f7; --rule:1px solid var(--fg);
-  --wrap:clamp(320px,92vw,940px); --gap:16px; --gap-lg:20px;
+/* Base */
+:root { --col:#000; --bg:#fff; --rule:1px solid #000; --w:940px; --gap:16px; }
+* { box-sizing: border-box; }
+html, body { margin:0; padding:0; background:var(--bg); color:var(--col); font-family: monospace; }
+.wrap { max-width: var(--w); margin: 0 auto; padding: 16px; }
+
+/* Grid */
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+
+/* Identity tile (used only on collapsed pages, not Home) */
+#idcard { border: var(--rule); padding: 12px; background: #fafafa; }
+#idcard .cap { font-size:12px; color:#333; margin-top:6px; }
+#randomart { white-space: pre; line-height: 1.0; font-size: 11px; color:#0a0; }
+
+/* Blocks spanning both columns */
+nav, header.site, hr, footer, .notice, .fullrow { grid-column: 1 / -1; }
+
+/* Nav (bring back italic + underline) */
+nav { display:flex; gap:12px; align-items:center; border-bottom: var(--rule); padding: 8px 0; }
+nav a { color:#00c; text-decoration: underline; font-style: italic; }
+
+/* Collapsed crumb bar */
+#crumb { display:none; align-items:center; gap:8px; border-bottom: var(--rule); padding:6px 0; }
+#crumb img { width:16px; height:16px; border:none; }
+#crumb a { color:#00c; text-decoration: underline; font-style: italic; }
+
+/* Collapsed pages: hide left rail + nav; show crumb */
+body.collapsed #idcard { display:block; }           /* we DO show idcard on collapsed pages */
+body.collapsed nav { display:none; }
+body.collapsed #crumb { display:flex; }
+
+/* Type & elements */
+header.site { text-align:center; margin:18px 0; }
+hr { border:none; border-top:var(--rule); margin:14px 0; }
+figure { margin:0 0 12px 0; }
+img { max-width:100%; height:auto; display:block; border:1px solid #000; }
+footer { border-top:var(--rule); margin-top:16px; padding-top:12px; text-align:center; color:#333; }
+.small { font-size:12px; color:#333; }
+.center { text-align:center; }
+
+/* Dotted-line notice (shared partial) */
+.notice { background:#fafafa; border:1px dashed #000; padding:8px; margin-bottom:18px; }
+
+/* Posts + gallery */
+.posts { }
+.gallery { display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+
+/* Design page placeholders (square) */
+.ph { display:block; position:relative; border:1px dashed #000; background:#fafafa; }
+.ph-square { width: min(92vw, 440px); aspect-ratio: 1 / 1; margin: 0 auto; }
+.ph::after {
+  content: attr(data-label);
+  position:absolute; left:50%; top:50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px; color:#333; text-align:center; padding: 2px 6px;
 }
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:monospace;
-  -webkit-text-size-adjust:100%;text-size-adjust:100%;-webkit-font-smoothing:antialiased}
-a{color:var(--fg);text-decoration:none}
-img{max-width:100%;height:auto;display:block;border:1px solid var(--fg)}
 
-/* long strings (wallets, hashes) */
-code,.addr{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;word-break:break-all;overflow-wrap:anywhere}
-pre{white-space:pre-wrap;word-wrap:break-word}
-
-/* wrapper + safe-area for iOS */
-.wrap{width:100%;max-width:var(--wrap);margin:0 auto;padding:16px;
-  padding-left:max(16px,env(safe-area-inset-left));
-  padding-right:max(16px,env(safe-area-inset-right));
-  padding-top:max(16px,env(safe-area-inset-top));
-  padding-bottom:max(16px,env(safe-area-inset-bottom));
-}
-
-/* grid */
-.grid{display:grid;grid-template-columns:1fr;gap:var(--gap)}
-@media (min-width:880px){.grid{grid-template-columns:1fr 1fr;gap:var(--gap-lg)}}
-
-/* blocks */
-header.site{grid-column:1/-1;text-align:center}
-header.site h1{margin:8px 0 4px 0;font-size:clamp(18px,4.6vw,28px)}
-.small{font-size:12px;color:var(--fg-dim)}
-.center{text-align:center}
-hr{border:none;border-top:var(--rule);margin:12px 0}
-footer{grid-column:1/-1;border-top:var(--rule);margin-top:12px;padding-top:10px;text-align:center;color:var(--fg-dim)}
-
-/* nav */
-nav{grid-column:1/-1;display:flex;gap:12px;align-items:center;border-bottom:var(--rule);padding:8px 0}
-nav img{width:24px;height:24px;border:none}
-nav a.current,nav a[aria-current="page"]{font-style:italic;text-decoration:underline}
-
-/* one-liners */
-.notice{grid-column:1/-1;background:var(--bg);border:1px dashed var(--fg);padding:10px}
-
-/* randomart tile (About only) */
-#idcard{grid-column:1/-1;border:var(--rule);padding:12px;background:var(--bg);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px}
-#randomart{white-space:pre;line-height:1.0;font-size:11px;color:var(--fg);width:max-content;max-width:100%}
-#idcard .cap{font-size:12px;color:var(--fg-dim);word-break:break-all;overflow-wrap:anywhere}
-
-/* content */
-figure{margin:0 0 12px 0}
-.gallery{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media (min-width:880px){.gallery{grid-template-columns:1fr 1fr 1fr}}
-
-/* util */
-.fullrow{grid-column:1/-1}
-
-/* placeholder style (shared “nothing here…” look) */
-.placeholder{color:var(--fg-dim);font-style:italic}
-/* Keep the same vertical beat from the mission block to the next header */
-.notice { margin-bottom: 18px; }
-/* mobile-wide centering */
-@media (max-width:879px){
-  header.site,.notice,.latest,.posts,.fullrow,footer{text-align:center}
+/* Responsive tweak */
+@media (min-width: 720px) {
+  .gallery.design { grid-template-columns: 1fr 1fr; }
 }
