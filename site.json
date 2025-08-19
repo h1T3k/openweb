@@ -1,5 +1,5 @@
 {
   "admin_address": "0xaa83575024d50ce6d134aaafb07a3bbd6af837f3",
-  "randomart_source": "sha256(admin_address)",
   "caption": "On-chain site identity (SHA-256 of admin address)"
+  "icon_grid": 8
 }
