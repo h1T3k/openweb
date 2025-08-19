@@ -45,9 +45,11 @@ nav a.current, nav a[aria-current="page"]{
 
 /* dashed info blocks */
 .notice,.news{grid-column:1/-1;border:1px dashed var(--fg);padding:8px;background:#010}
-
-/* tighter rhythm when a header follows a section (reduces gap just here) */
-.grid > section + header.site { margin-top: -10px; }
+/* tighter rhythm when any section precedes the header */
+.grid:has(> section ~ header.site) > header.site { margin-top: calc(-1 * var(--gap) + 4px); }
+@media (min-width:880px){
+  .grid:has(> section ~ header.site) > header.site { margin-top: calc(-1 * var(--gap-lg) + 6px); }
+}
 
 /* gallery (Design) */
 figure{margin:0 0 12px 0}
