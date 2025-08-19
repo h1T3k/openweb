@@ -27,7 +27,7 @@ pre{white-space:pre-wrap;word-wrap:break-word}
 @media (min-width:880px){.grid{grid-template-columns:1fr 1fr;gap:var(--gap-lg)}}
 
 /* blocks */
-header.site{grid-column:1/-1;text-align:center;margin:18px 0}
+header.site{grid-column:1/-1;text-align:center;margin:12px 0}   /* slightly tighter base */
 footer{grid-column:1/-1;border-top:var(--rule);margin-top:16px;padding-top:12px;text-align:center;color:var(--fg-dim)}
 nav{grid-column:1/-1;display:flex;gap:12px;align-items:center;border-bottom:var(--rule);padding:8px 0}
 nav img{width:24px;height:24px;border:1px solid var(--fg);padding:2px;background:#000;image-rendering:pixelated}
@@ -40,12 +40,14 @@ nav a.current, nav a[aria-current="page"]{
 /* desktop-only hover underline (no effect on touch screens) */
 @media (hover:hover) and (pointer:fine){
   nav a:hover { text-decoration: underline; }
-  /* optional: keyboard users on desktop get underline when focusing links */
   nav a:focus-visible { text-decoration: underline; outline: none; }
 }
 
 /* dashed info blocks */
 .notice,.news{grid-column:1/-1;border:1px dashed var(--fg);padding:8px;background:#010}
+
+/* tighter rhythm when a header follows a section (reduces gap just here) */
+.grid > section + header.site { margin-top: -10px; }
 
 /* gallery (Design) */
 figure{margin:0 0 12px 0}
