@@ -8,7 +8,7 @@ html,body{
   margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:monospace;
   -webkit-text-size-adjust:100%;text-size-adjust:100%;-webkit-font-smoothing:antialiased
 }
-a{color:var(--fg);text-decoration:none}
+a{color:var(--fg);text-decoration:none}              /* default: no underline */
 img{max-width:100%;height:auto;display:block;border:1px solid var(--fg)}
 code,.addr{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;word-break:break-all;overflow-wrap:anywhere}
 pre{white-space:pre-wrap;word-wrap:break-word}
@@ -31,8 +31,18 @@ header.site{grid-column:1/-1;text-align:center;margin:18px 0}
 footer{grid-column:1/-1;border-top:var(--rule);margin-top:16px;padding-top:12px;text-align:center;color:var(--fg-dim)}
 nav{grid-column:1/-1;display:flex;gap:12px;align-items:center;border-bottom:var(--rule);padding:8px 0}
 nav img{width:24px;height:24px;border:1px solid var(--fg);padding:2px;background:#000;image-rendering:pixelated}
-nav a{color:var(--fg);text-decoration:underline}
-nav a.current, nav a[aria-current="page"]{font-style:italic;text-decoration:underline}
+nav a{color:var(--fg)}                              /* plain by default */
+nav a.current, nav a[aria-current="page"]{
+  font-style:italic;
+  text-decoration:underline;                        /* underline only when active */
+}
+
+/* desktop-only hover underline (no effect on touch screens) */
+@media (hover:hover) and (pointer:fine){
+  nav a:hover { text-decoration: underline; }
+  /* optional: keyboard users on desktop get underline when focusing links */
+  nav a:focus-visible { text-decoration: underline; outline: none; }
+}
 
 /* dashed info blocks */
 .notice,.news{grid-column:1/-1;border:1px dashed var(--fg);padding:8px;background:#010}
